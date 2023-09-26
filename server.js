@@ -1,35 +1,13 @@
-const path = require('path');
-
 const express = require('express');
-
 const app = express();
+const port = 3000; // You can change this to your desired port number
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
-app.use((req, res, next)=>{
-    res.setHeader('Access-Control-Allow-Origin','*');
-    res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
-    res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
-    next();
+// Define a route handler for the root path '/'
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
 });
 
-
-app.get("/",(res, req)=>{
-    return "Hello world"
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is listening at http://localhost:${port}`);
 });
-
-app.use((error, req, res, next)=>{
-    console.log(error);
-    const status = error.statusCode || 500;
-    const message = error.message;
-    const data = error.data;
-    res.status(status).json({
-        message: message,
-        data: data
-    })
-});
-
-app.listen(3000, 'localhost', () => {
-    console.log('Listening for requests on port 3000')
-    }
-);
